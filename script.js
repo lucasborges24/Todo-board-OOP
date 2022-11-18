@@ -1,11 +1,9 @@
-import { Task, Board } from "./classes";
+import { Board } from "./classes.js";
 
 function onDuplicateBoard(board) {
   const boardsContainer = document.querySelector(".boards");
-  const newBoard = structuredClone(board);
   const lastBoardId = boards[boards.length - 1].id;
-  newBoard.id = lastBoardId + 1;
-  newBoard.title = `${newBoard.title} Copy`;
+  const newBoard = new Board(lastBoardId + 1, `${board.title} Copy`);
 
   const boardContainer = getBoardView(newBoard);
   boardsContainer.appendChild(boardContainer);
@@ -35,11 +33,7 @@ function onDeleteBoard(boardId) {
 
 function onAddBoard(newBoardTitle) {
   const lastBoardId = boards[boards.length - 1]?.id || 0;
-  const board = {
-    id: lastBoardId + 1,
-    title: newBoardTitle,
-    tasks: [],
-  };
+  const board = new Board(lastBoardId + 1, newBoardTitle);
   boards.push(board);
 
   const boardsContainer = document.querySelector(".boards");
@@ -72,11 +66,12 @@ function onCompleteTask(boardId, taskId) {
 function onAddTask(boardId, newTaskName) {
   const board = boards.find((board) => board.id === Number(boardId));
   const lastTaskId = board.tasks[board.tasks.length - 1]?.id || 0;
+  const currentTask = board.onAddTask(lastTaskId + 1, newTaskName, false);
 
   const tasksContainer = document.querySelector(
     `[data-board-id="${boardId}"] .tasks`
   );
-  const taskContainer = getTaskView(Number(boardId), task);
+  const taskContainer = getTaskView(Number(boardId), currentTask);
   tasksContainer.appendChild(taskContainer);
 }
 
@@ -176,17 +171,13 @@ function getBoardView(board) {
   return boardContainer;
 }
 
-const boardPessoal = {
-  id: 1,
-  title: "Title",
-  tasks: [
-    { id: 1, name: "tarefa 1", completed: false },
-    { id: 2, name: "tarefa 2", completed: false },
-    { id: 3, name: "tarefa 3", completed: true },
-    { id: 4, name: "tarefa 4", completed: false },
-    { id: 5, name: "tarefa 5", completed: true },
-  ],
-};
+const boardPessoal = new Board(1, "Title");
+for (let i = 1; i <= 5; i++) {
+  const id = i;
+  const name = `tarefa ${i}`;
+  const completed = i % 2 === 0;
+  boardPessoal.onAddTask(id, name, completed);
+}
 
 let boards = [boardPessoal];
 
