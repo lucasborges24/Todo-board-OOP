@@ -70,13 +70,7 @@ function onCompleteTask(boardId, taskId) {
 
 function onAddTask(boardId, newTaskName) {
   const board = boards.find((board) => board.id === Number(boardId));
-  const lastTaskId = board.tasks[board.tasks.length - 1].id;
-  const task = {
-    id: lastTaskId + 1,
-    name: newTaskName,
-    completed: false,
-  };
-  board.tasks.push(task);
+  const lastTaskId = board.tasks[board.tasks.length - 1]?.id || 0;
 
   const tasksContainer = document.querySelector(
     `[data-board-id="${boardId}"] .tasks`
