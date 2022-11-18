@@ -18,11 +18,12 @@ function onBoardTitleClick(boardId) {
     alert("Insira o novo título!");
     return;
   }
-
-  const boardTitleElement = document.querySelector(
-    `.board-${boardId} .board-title`
-  );
+  const boardTitleElement = document
+    .querySelectorAll(".board")
+    [boardId - 1].querySelector("p");
+  console.log(boardTitleElement, boardId);
   boardTitleElement.textContent = newTitle;
+  boards[boardId - 1].title = newTitle;
 }
 
 function onDeleteBoard(boardId) {
