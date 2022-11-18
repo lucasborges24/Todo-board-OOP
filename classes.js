@@ -1,4 +1,4 @@
-class Board {
+export class Board {
   constructor(id, title) {
     this.id = id;
     this.title = title;
@@ -7,16 +7,15 @@ class Board {
 
   onAddTask(id, name, completed) {
     const task = new Task(id, name, completed);
-    return this.tasks.push(task);
+    this.tasks.push(task);
+    return task;
   }
 }
 
-class Task {
+export class Task {
   constructor(id, name, completed) {
     this.id = id;
     this.name = name;
     this.completed = completed;
   }
 }
-
-export { Board, Task };
